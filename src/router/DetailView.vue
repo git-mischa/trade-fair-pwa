@@ -1,9 +1,6 @@
 <template>
   <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--8-col">
-      <div class="picture">
-        <img :src="cat.url" />
-      </div>
       <div class="info">
         <span>{{ cat.info }}</span>
       </div>
