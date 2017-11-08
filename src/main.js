@@ -2,7 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import router from './router'
+import router from './router/router'
 import Vuefire from 'vuefire'
 import { database } from '@/service/firebase'
 import VueResource from 'vue-resource'
@@ -16,7 +16,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   firebase: {
-    cat: database.ref('cat').orderByChild('created_at')
+    board: database.ref('board').orderByChild('created_at')
   },
   router,
   template: '<App/>',

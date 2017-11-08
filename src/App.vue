@@ -9,12 +9,15 @@
       <span class="mdl-layout-title">Trade-Fair</span>
       <nav class="mdl-navigation">
         <router-link class="mdl-navigation__link" to="/" @click.native="hideMenu">Home</router-link>
-        <router-link class="mdl-navigation__link" to="/post" @click.native="hideMenu">Post</router-link>
+        <router-link class="mdl-navigation__link" to="/overview" @click.native="hideMenu">Calendar - Overview</router-link>
+        <router-link class="mdl-navigation__link" to="/board" @click.native="hideMenu">Message Board</router-link>
+        <router-link class="mdl-navigation__link" to="/about" @click.native="hideMenu">About</router-link>
       </nav>
     </div>
     <main class="mdl-layout__content">
       <div class="page-content">
-        <router-view></router-view>
+        <div v-if="$root.loading" class="mdl-spinner mdl-js-spinner is-active"></div>
+        <router-view v-else></router-view>
       </div>
     </main>
   </div>
