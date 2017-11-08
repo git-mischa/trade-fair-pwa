@@ -1,0 +1,89 @@
+{
+  "board" : {
+    "-KyQuh3tK2S2z49yd1_b" : {
+      "created_at" : -1510149378440,
+      "message" : "Testing with lots and lots and lots and lots and lots and lots and lots and lots and lots and lots and lots and lots and lots and lots and lots and lots and lots and lots of text.",
+      "title" : "Hello VueJs",
+      "user" : "Me, myself and I"
+    },
+    "-KyQwUpI6Md2VVgU3HKy" : {
+      "created_at" : -1510149848401,
+      "message" : "123",
+      "title" : "123",
+      "user" : "123"
+    },
+    "-KyQwZ-PfpdZ0j0N0MK4" : {
+      "created_at" : -1510149865498,
+      "message" : "123",
+      "title" : "123",
+      "user" : "123"
+    }
+  },
+  "calendar" : {
+    "2017-01" : {
+      "date" : "01.12.2017",
+      "time" : "14:30",
+      "title" : "Einführung",
+      "speaker" : "Speaker A"
+    },
+    "2017-02" : {
+      "date" : "02.12.2017",
+      "time" : "14:30",
+      "title" : "Thema A",
+      "speaker" : "Speaker B"
+    },
+    "2017-03" : {
+      "date" : "03.12.2017",
+      "time" : "14:30",
+      "title" : "Thema B",
+      "speaker" : "Speaker C"
+    },
+    "2017-04" : {
+      "date" : "04.12.2017",
+      "time" : "14:30",
+      "title" : "Thema C",
+      "speaker" : "Speaker D"
+    },
+    "2017-05" : {
+      "date" : "05.12.2017",
+      "time" : "14:30",
+      "title" : "Thema D",
+      "speaker" : "Speaker C"
+    },
+    "2017-06" : {
+      "date" : "06.12.2017",
+      "time" : "14:30",
+      "title" : "Thema E",
+      "speaker" : "Speaker A"
+    },
+    "2017-07" : {
+      "date" : "07.12.2017",
+      "time" : "14:30",
+      "title" : "Thema F",
+      "speaker" : "Speaker B"
+    },
+    "2017-08" : {
+      "date" : "08.12.2017",
+      "title" : "Thema G",
+      "speaker" : "Speaker A"
+    },
+    "2017-09" : {
+      "date" : "09.12.2017",
+      "time" : "14:30",
+      "title" : "Thema H",
+      "speaker" : "Speaker B"
+    },
+    "2017-10" : {
+      "date" : "10.12.2017",
+      "time" : "14:30",
+      "title" : "Thema I",
+      "speaker" : "Speaker C"
+    },
+    "2017-11" : {
+      "date" : "11.12.2017",
+      "time" : "14:30",
+      "title" : "Thema J",
+      "speaker" : "Speaker A"
+    }
+  }
+}
