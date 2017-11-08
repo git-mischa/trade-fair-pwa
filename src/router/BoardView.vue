@@ -27,15 +27,19 @@
           </div>
       </div>
     </form>
-    <div v-for="message in this.getMessages()" class="image-card" v-bind:key="message.id">
-      <div class="">
-        {{ message.title }}
-      </div>
-      <div class="">
-        {{ message.message }}
-      </div>
-      <div class="">
-        {{ message.user }}
+    <div v-for="message in this.getMessages()" v-bind:key="message.id">
+      <div class="demo-card-square mdl-card mdl-shadow--2dp">
+        <div class="mdl-card__title mdl-card--expand">
+          <h2 class="mdl-card__title-text">{{ message.title }}– von {{ message.user }}</h2>
+        </div>
+        <div class="mdl-card__supporting-text">
+          {{ message.message }}
+        </div>
+        <div class="mdl-card__actions mdl-card--border">
+          <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+            View Updates
+          </a>
+        </div>
       </div>
     </div>
   </div>
