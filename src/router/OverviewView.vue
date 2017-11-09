@@ -46,7 +46,6 @@
       getEntries () {
         if (navigator.onLine) {
           this.cacheEntries()
-          console.log(this.$root.calendar)
           return this.$root.calendar
         } else {
           return JSON.parse(localStorage.getItem('calendar'))
@@ -72,6 +71,7 @@
 <style scoped>
 table {
   margin: 2em auto;
+  max-width: 100%;
 }
 th, td {
   padding-top: 1em; 
