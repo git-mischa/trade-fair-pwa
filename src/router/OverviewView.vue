@@ -1,46 +1,81 @@
 <template>
-  <form>
-    <div class="mdl-grid">
-      <div class="mdl-cell mdl-cell--8-col">
-        <div class="card-image__picture">
-          <img :src="this.catUrl"/>
-        </div>
-      </div>
-      <div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet">
-        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label is-upgraded is-dirty">
-          <input id="username" v-model="title" type="text" class="mdl-textfield__input"/>
-          <label for="username" class="mdl-textfield__label">Describe me</label>
-        </div>
-        <div class="actions">
-          <a @click.prevent="postMessage" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
-            POST A Message
-          </a>
-        </div>
-      </div>
-    </div>
-  </form>
+  <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+    <thead>
+      <tr>
+        <th class="mdl-data-table__cell--non-numeric">Event Title</th>
+        <th>Date – Time</th>
+        <th>Speaker</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="entry in this.getEntries()" v-bind:key="entry.id">
+        <td>
+          <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect mdl-data-table__select mdl-js-ripple-effect--ignore-events is-upgraded" data-upgraded=",MaterialCheckbox,MaterialRipple">
+            <input type="checkbox" class="mdl-checkbox__input">
+            <span class="mdl-checkbox__focus-helper"></span>
+            <span class="mdl-checkbox__box-outline">
+              <span class="mdl-checkbox__tick-outline"></span>
+            </span>
+            <span class="mdl-checkbox__ripple-container mdl-js-ripple-effect mdl-ripple--center" data-upgraded=",MaterialRipple">
+              <span class="mdl-ripple is-animating" style="width: 103.823px; height: 103.823px; transform: translate(-50%, -50%) translate(18px, 18px);"></span>
+            </span>
+          </label>
+        </td>
+        <td class="mdl-data-table__cell--non-numeric">{{ entry.title }}</td>
+        <td>{{ entry.date }} – {{ entry.time }}</td>
+        <td>{{ entry.speaker }}</td>
+      </tr>
+    </tbody>
+  </table>
 </template>
 <script>
-  import parse from 'xml-parser'
-  import postMessage from '@/mixins/postMessage'
   export default {
-    mixins: [postMessage],
     data () {
       return {
-        'catUrl': null,
+        date: '',
+        speaker: '',
+        time: '',
         title: ''
       }
     },
+    methods: {
+    // TODO: Insert delete dialog
+    // displayDetails (id) {
+    //   this.$router.push({name: 'detail', params: { id: id }})
+    // },
+      getEntries () {
+        if (navigator.onLine) {
+          this.cacheEntries()
+          console.log(this.$root.calendar)
+          return this.$root.calendar
+        } else {
+          return JSON.parse(localStorage.getItem('calendar'))
+        }
+      },
+      cacheEntries () {
+        this.$root.$firebaseRefs.calendar.orderByChild('created_at').once('value', (snapchot) => {
+          let cachedEntries = []
+          snapchot.forEach((entry) => {
+            let cachedEntry = entry.val()
+            cachedEntry['.key'] = entry.key
+            cachedEntries.push(cachedEntry)
+          })
+          localStorage.setItem('calendar', JSON.stringify(cachedEntries))
+        })
+      }
+    },
     mounted () {
-      this.$http.get('http://thecatapi.com/api/images/get?format=xml&results_per_page=1').then(response => {
-        this.catUrl = parse(response.body).root.children['0'].children['0'].children['0'].children['0'].content
-      })
+      this.cacheEntries()
     }
   }
 </script>
 <style scoped>
-  .waiting {
-    padding: 10px;
-    color: #555;
-  }
+table {
+  margin: 2em auto;
+}
+th, td {
+  padding-top: 1em; 
+  padding-bottom: 1em; 
+  font-size: 1.5em;
+}
 </style>

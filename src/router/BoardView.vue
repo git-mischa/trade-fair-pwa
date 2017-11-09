@@ -3,20 +3,20 @@
     <form>
       <div class="mdl-grid">
         <div class="mdl-cell mdl-cell--12-col">
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label is-upgraded is-dirty" required="required" >
-            <input id="title" v-model="title" type="text" class="mdl-textfield__input" required="required"/>
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label is-upgraded is-dirty"  >
+            <input id="title" v-model="title" type="text" class="mdl-textfield__input" />
             <label for="title" class="mdl-textfield__label">Message Title</label>
           </div>
         </div>
         <div class="mdl-cell mdl-cell--12-col">
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label is-upgraded is-dirty" required="required" >
-            <textarea id="message" v-model="message" type="text" class="mdl-textfield__input" required="required" rows= "3" ></textarea>
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label is-upgraded is-dirty"  >
+            <textarea id="message" v-model="message" type="text" class="mdl-textfield__input"  rows= "3" ></textarea>
             <label for="message" class="mdl-textfield__label">Message</label>
           </div>
         </div>
         <div class="mdl-cell mdl-cell--12-col">
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label is-upgraded is-dirty" required="required" >
-            <input id="user" v-model="user" type="text" class="mdl-textfield__input" required="required"/>
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label is-upgraded is-dirty"  >
+            <input id="user" v-model="user" type="text" class="mdl-textfield__input" />
             <label for="user" class="mdl-textfield__label">Posted by</label>
           </div>
         </div>
@@ -27,21 +27,19 @@
           </div>
       </div>
     </form>
-    <div v-for="message in this.getMessages()" v-bind:key="message.id">
-      <div class="demo-card-square mdl-card mdl-shadow--2dp">
+    <section class="card-container">
+      <div class="demo-card-square mdl-card mdl-shadow--2dp" v-for="message in this.getMessages()" v-bind:key="message.id">
         <div class="mdl-card__title mdl-card--expand">
-          <h2 class="mdl-card__title-text">{{ message.title }}– von {{ message.user }}</h2>
+          <h2 class="mdl-card__title-text">{{ message.title }}</h2>
         </div>
-        <div class="mdl-card__supporting-text">
+        <div class="mdl-card__supporting-text card-text">
           {{ message.message }}
         </div>
-        <div class="mdl-card__actions mdl-card--border">
-          <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-            View Updates
-          </a>
+        <div class="mdl-card__supporting-text">
+          Written by: {{ message.user }}
         </div>
       </div>
-    </div>
+    </section>
   </div>
 </template>
 <script>
@@ -61,6 +59,7 @@ export default {
     // displayDetails (id) {
     //   this.$router.push({name: 'detail', params: { id: id }})
     // },
+
     getMessages () {
       if (navigator.onLine) {
         this.cacheMessages()
@@ -69,6 +68,11 @@ export default {
         return JSON.parse(localStorage.getItem('messages'))
       }
     },
+    // clearInput () {
+    //   this.title = ''
+    //   this.message = ''
+    //   this.user = ''
+    // },
     cacheMessages () {
       this.$root.$firebaseRefs.board.orderByChild('created_at').once('value', (snapchot) => {
         let cachedMessages = []
@@ -87,8 +91,34 @@ export default {
 }
 </script>
 <style scoped>
-.board {
-  margin: 0 auto;
-  max-width: 600px;
+form {
+  margin: auto;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.mdl-card {
+  margin: 2em;
+}
+
+.mdl-card:hover {
+  box-shadow: 
+  0 4px 2px 0 rgba(0,0,0,.14), 
+  0 5px 3px -2px rgba(0,0,0,.2), 
+  0 3px 5px 0 rgba(0,0,0,.12);
+  transition: all .2s;
+  cursor: pointer;
+}
+
+.mdl-card__title-text {
+  align-self: flex-start;
+}
+
+.card-text {
+  color: #151515;
+  font-size: 1em;
 }
 </style>
