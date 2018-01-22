@@ -17,7 +17,8 @@ new Vue({
   el: '#app',
   firebase: {
     board: database.ref('board').orderByChild('created_at'),
-    calendar: database.ref('calendar').orderByChild('created_at')
+    calendar: database.ref('calendar').orderByChild('date'),
+    speaker: database.ref('calendar').orderByChild('name')
   },
   router,
   template: '<App/>',

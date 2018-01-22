@@ -16,13 +16,13 @@
         
       </div>
     </div>
-    <div id="speaker1" class="speaker-card mdl-card mdl-shadow--2dp">
+    <div id="speaker1" class="speaker-card mdl-card mdl-shadow--2dp" v-for="speaker in this.getEntries()" v-bind:key="speaker.id">
       <div class="mdl-card__title mdl-card--expand">
-        <h2 class="mdl-card__title-text">Frank Furt</h2>
+        <img class="card__image" :src="speaker.image">
+        <h2 class="mdl-card__title-text">{{ speaker.name }}</h2>
       </div>
       <div class="mdl-card__supporting-text">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        Aenan convallis.
+        {{ speaker.description }}
       </div>
       <div class="mdl-card__actions mdl-card--border">
         <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
@@ -39,8 +39,39 @@
 </template>
 
 <script>
-export default {
-}
+  export default {
+    data () {
+      return {
+        name: '',
+        image: '',
+        description: ''
+      }
+    },
+    methods: {
+      getEntries () {
+        if (navigator.onLine) {
+          this.cacheEntries()
+          return this.$root.speaker
+        } else {
+          return JSON.parse(localStorage.getItem('speaker'))
+        }
+      },
+      cacheEntries () {
+        this.$root.$firebaseRefs.speaker.orderByChild('name').once('value', (snapshot) => {
+          let cachedSpeakers = []
+          snapshot.forEach((speaker) => {
+            let cachedSpeaker = speaker.val()
+            cachedSpeaker['.key'] = speaker.key
+            cachedSpeakers.push(cachedSpeaker)
+          })
+          localStorage.setItem('speaker', JSON.stringify(cachedSpeakers))
+        })
+      }
+    },
+    mounted () {
+      this.cacheEntries()
+    }
+  }
 </script>
 <style scoped>
   h2 {
@@ -74,32 +105,15 @@ export default {
 
   .speaker-card > .mdl-card__title {
     color: azure;
+    position: relative;
   }
 
-  #speaker1 > .mdl-card__title {
-    background: url('./../../static/img/avatar_1.jpeg') bottom right 15% no-repeat #46B6AC;
-    background-size: contain;
-  }  
-
-  #speaker2 > .mdl-card__title {
-    background: url('./../../static/img/avatar_2.jpeg') bottom right 15% no-repeat #46B6AC;
-    background-size: contain;
-  }  
-
-  #speaker3 > .mdl-card__title {
-    background: url('./../../static/img/avatar_3.jpeg') bottom right 15% no-repeat #46B6AC;
-    background-size: contain;
-  }  
-
-  #speaker4 > .mdl-card__title {
-    background: url('./../../static/img/avatar_4.jpeg') bottom right 15% no-repeat #46B6AC;
-    background-size: contain;
-  }  
-  
-  #speaker5 > .mdl-card__title {
-    background: url('./../../static/img/avatar_5.jpeg') bottom right 15% no-repeat #46B6AC;
-    background-size: contain;
-  }  
+  .card__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
 
   @media screen and (min-width: 420px) {
     .home-teaser__title {
