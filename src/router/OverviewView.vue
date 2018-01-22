@@ -1,32 +1,25 @@
 <template>
-  <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
-    <thead>
-      <tr>
-        <th class="mdl-data-table__cell--non-numeric">Event Title</th>
-        <th>Date – Time</th>
-        <th>Speaker</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="entry in this.getEntries()" v-bind:key="entry.id">
-        <td>
-          <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect mdl-data-table__select mdl-js-ripple-effect--ignore-events is-upgraded" data-upgraded=",MaterialCheckbox,MaterialRipple">
-            <input type="checkbox" class="mdl-checkbox__input">
-            <span class="mdl-checkbox__focus-helper"></span>
-            <span class="mdl-checkbox__box-outline">
-              <span class="mdl-checkbox__tick-outline"></span>
-            </span>
-            <span class="mdl-checkbox__ripple-container mdl-js-ripple-effect mdl-ripple--center" data-upgraded=",MaterialRipple">
-              <span class="mdl-ripple is-animating" style="width: 103.823px; height: 103.823px; transform: translate(-50%, -50%) translate(18px, 18px);"></span>
-            </span>
-          </label>
-        </td>
-        <td class="mdl-data-table__cell--non-numeric">{{ entry.title }}</td>
-        <td>{{ entry.date }} – {{ entry.time }}</td>
-        <td>{{ entry.speaker }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--4-col" v-for="entry in this.getEntries()" v-bind:key="entry.id">
+      <div class="card-event mdl-card mdl-shadow--2dp">
+        <div class="mdl-card__title mdl-card--expand">
+          <h4>
+            {{ entry.title }}:<br>
+            {{ entry.date }}<br>
+            {{ entry.time }}<br>
+            {{ entry.speaker }}
+          </h4>
+        </div>
+        <div class="mdl-card__actions mdl-card--border">
+          <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+            In Kalender eintragen
+          </a>
+          <div class="mdl-layout-spacer"></div>
+          <i class="material-icons">event</i>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
   export default {
@@ -39,10 +32,6 @@
       }
     },
     methods: {
-    // TODO: Insert delete dialog
-    // displayDetails (id) {
-    //   this.$router.push({name: 'detail', params: { id: id }})
-    // },
       getEntries () {
         if (navigator.onLine) {
           this.cacheEntries()
@@ -69,13 +58,31 @@
   }
 </script>
 <style scoped>
-table {
-  margin: 2em auto;
-  max-width: 100%;
+.card-event.mdl-card {
+  width: 256px;
+  height: 256px;
+  background: #3E4EB8;
 }
-th, td {
-  padding-top: 1em; 
-  padding-bottom: 1em; 
-  font-size: 1.5em;
+.card-event > .mdl-card__actions {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.card-event > .mdl-card__title {
+  align-items: flex-start;
+}
+.card-event > .mdl-card__title > h4 {
+  margin-top: 0;
+}
+.card-event > .mdl-card__actions {
+  display: flex;
+  box-sizing:border-box;
+  align-items: center;
+}
+.card-event > .mdl-card__actions > .material-icons {
+  padding-right: 10px;
+}
+.card-event > .mdl-card__title,
+.card-event > .mdl-card__actions,
+.card-event > .mdl-card__actions > .mdl-button {
+  color: #fff;
 }
 </style>
