@@ -16,10 +16,18 @@
     </div>
     <main class="mdl-layout__content">
       <div class="page-content">
-        <div v-if="$root.loading" class="mdl-spinner mdl-js-spinner is-active"></div>
-        <router-view v-else></router-view>
+        <div class="l-wrapper">
+          <div v-if="$root.loading" class="mdl-spinner mdl-js-spinner is-active"></div>
+          <router-view v-else></router-view>
+        </div>
       </div>
     </main>
+    <footer class="footer">
+      <div class="footer-icon">
+        <object data="../static/img/re-lounge_logo.svg"></object>
+      </div>
+      <span class="footer-copyright">© 2018</span>
+    </footer>
   </div>
 </template>
 
@@ -37,8 +45,24 @@ export default {
 </script>
 
 <style>
-  @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
-  @import url('https://code.getmdl.io/1.2.1/material.blue-red.min.css');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import url('https://code.getmdl.io/1.2.1/material.blue-red.min.css');
+
+* {
+    font-family: 'Roboto';
+    box-sizing: border-box;
+}
+
+.mdl-layout {
+  padding-bottom: 60px;
+}
+
+.l-wrapper {
+  margin-right: auto;
+  margin-left: auto;
+  padding: 0 20px;
+  max-width: 1130px;
+}
 
 .page-content {
   margin: 0 auto;
@@ -52,5 +76,33 @@ export default {
 
 img {
   width: 100%;
+}
+
+.footer {
+  padding: 0 15px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #424242;
+  z-index: 10;
+}
+
+.footer-icon {
+  flex: 3;
+  text-align: left;
+}
+
+.footer-icon object {
+  height: 40px;
+}
+
+.footer-copyright {
+  text-align: right;
+  flex: 1;
+  color: azure;
 }
 </style>
