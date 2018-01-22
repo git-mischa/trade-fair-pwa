@@ -41,7 +41,7 @@
         }
       },
       cacheEntries () {
-        this.$root.$firebaseRefs.calendar.orderByChild('created_at').once('value', (snapchot) => {
+        this.$root.$firebaseRefs.calendar.orderByChild('date').once('value', (snapchot) => {
           let cachedEntries = []
           snapchot.forEach((entry) => {
             let cachedEntry = entry.val()
