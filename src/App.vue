@@ -14,6 +14,7 @@
       <span class="mdl-layout-title">Exhibition</span>
       <nav class="mdl-navigation">
         <router-link class="mdl-navigation__link" to="/" @click.native="hideMenu">Home</router-link>
+        <router-link class="mdl-navigation__link" to="/exhibitionmap" @click.native="hideMenu">Exhibition Map</router-link>
         <router-link class="mdl-navigation__link" to="/overview" @click.native="hideMenu">Calendar - Overview</router-link>
         <router-link class="mdl-navigation__link" to="/board" @click.native="hideMenu">Message Board</router-link>
         <router-link class="mdl-navigation__link" to="/about" @click.native="hideMenu">About</router-link>
@@ -47,6 +48,10 @@ export default {
     }
   }
 }
+window.addEventListener('load', () => {
+  // let reloadButton = document.getElementById('reload-button')
+  // reloadButton.removeAttribute('disabled')
+})
 </script>
 
 <style>
@@ -60,6 +65,13 @@ export default {
 
 .mdl-layout {
   padding-bottom: 60px;
+}
+
+.reload-icon {
+  position: fixed;
+  bottom: 55px;
+  right: 10px;
+  z-index: 5;
 }
 
 .l-wrapper {

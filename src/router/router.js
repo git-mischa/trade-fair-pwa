@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HomeView from '@/router/HomeView'
+import ExhibitionView from '@/router/ExhibitionView'
 import DetailView from '@/router/DetailView'
 import OverView from '@/router/OverviewView'
 import BoardView from '@/router/BoardView'
@@ -16,6 +17,11 @@ export default new Router({
       component: HomeView
     },
     {
+      path: '/exhibitionmap',
+      name: 'exhibitionmap',
+      component: ExhibitionView
+    },
+    {
       path: '/detail/:id',
       name: 'detail',
       component: DetailView
@@ -27,7 +33,7 @@ export default new Router({
     },
     {
       path: '/board',
-      name: 'borad',
+      name: 'board',
       component: BoardView
     },
     {
