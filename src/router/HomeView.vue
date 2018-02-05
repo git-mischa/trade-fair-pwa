@@ -11,23 +11,21 @@
     <h2>Unsere Speaker:</h2>
 
     <div class="mdl-grid">
-      <div class="mdl-cell mdl-cell--3-col mdl-cell--1-col-tablet mdl-cell--hide-phone"></div>
-      <div class="mdl-cell mdl-cell--6-col mdl-cell--4-col-phone">
-        
-      </div>
-    </div>
-    <div id="speaker1" class="speaker-card mdl-card mdl-shadow--2dp" v-for="speaker in this.getEntries()" v-bind:key="speaker.id">
-      <div class="mdl-card__title mdl-card--expand">
-        <img class="card__image" :src="speaker.image">
-        <h2 class="mdl-card__title-text">{{ speaker.name }}</h2>
-      </div>
-      <div class="mdl-card__supporting-text">
-        {{ speaker.description }}
-      </div>
-      <div class="mdl-card__actions mdl-card--border">
-        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-          Profil
-        </a>
+      <div class="mdl-cell mdl-cell--6-col" v-for="speaker in this.getSpeakers()" v-bind:key="speaker.id">
+        <div id="speaker1" class="speaker-card mdl-card mdl-shadow--2dp">
+          <div class="mdl-card__title mdl-card--expand">
+            <img class="card__image" :src="speaker.image">
+            <h2 class="mdl-card__title-text">{{ speaker.name }}</h2>
+          </div>
+          <div class="mdl-card__supporting-text">
+            {{ speaker.description }}
+          </div>
+          <div class="mdl-card__actions mdl-card--border">
+            <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+              Profil
+            </a>
+          </div>
+        </div>
       </div>
     </div>
     <!-- 
@@ -48,15 +46,15 @@
       }
     },
     methods: {
-      getEntries () {
+      getSpeakers () {
         if (navigator.onLine) {
-          this.cacheEntries()
+          this.cacheSpeakers()
           return this.$root.speaker
         } else {
           return JSON.parse(localStorage.getItem('speaker'))
         }
       },
-      cacheEntries () {
+      cacheSpeakers () {
         this.$root.$firebaseRefs.speaker.orderByChild('name').once('value', (snapshot) => {
           let cachedSpeakers = []
           snapshot.forEach((speaker) => {
@@ -69,7 +67,7 @@
       }
     },
     mounted () {
-      this.cacheEntries()
+      this.cacheSpeakers()
     }
   }
 </script>
@@ -95,17 +93,22 @@
     color: azure;
     line-height: 1;
     font-size: 20px;
-
   }
 
   .speaker-card.mdl-card {
-    width: 320px;
+    margin: 0 10px 10px 0;
+    width: 100%;
+    max-width: 320px;
     height: 301px;
   }
 
   .speaker-card > .mdl-card__title {
     color: azure;
     position: relative;
+  }
+
+  .mdl-card__title-text{
+    z-index: 1;
   }
 
   .card__image {
