@@ -4,6 +4,11 @@
       <div class="mdl-layout__header-row">
         <span class="mdl-layout-title">Exhibition</span>
       </div>
+      <span class="reload-icon">
+        <button id="reload-button" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" disabled>
+          <i class="material-icons">&#xE86A;</i>
+        </button>
+      </span>
     </header>
     <div class="mdl-layout__drawer">
       <span class="mdl-layout-title">Exhibition</span>
