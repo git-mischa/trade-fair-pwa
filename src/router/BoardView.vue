@@ -21,7 +21,7 @@
           </div>
         </div>
           <div class="actions">
-            <a @click.prevent="postMessage" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+            <a @click.prevent="postProcess" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
               Post a message
             </a>
           </div>
@@ -60,6 +60,10 @@ export default {
     //   this.$router.push({name: 'detail', params: { id: id }})
     // },
 
+    postProcess () {
+      this.postMessage()
+      this.clearInput()
+    },
     getMessages () {
       if (navigator.onLine) {
         this.cacheMessages()
@@ -68,11 +72,11 @@ export default {
         return JSON.parse(localStorage.getItem('messages'))
       }
     },
-    // clearInput () {
-    //   this.title = ''
-    //   this.message = ''
-    //   this.user = ''
-    // },
+    clearInput () {
+      this.title = ''
+      this.message = ''
+      this.user = ''
+    },
     cacheMessages () {
       this.$root.$firebaseRefs.board.orderByChild('created_at').once('value', (snapchot) => {
         let cachedMessages = []
