@@ -1,7 +1,10 @@
 <template>
   <div>
     <div class="home-teaser">
-      <img class="home-teaser__image" src="./../../static/img/home.jpg" />
+      <!-- <img class="home-teaser__image" src="./../../static/img/home.jpg" /> -->
+      <a href="./../../static/img/home.jpg" class="progressive replace">
+        <img src="./../../static/img/home_min.jpg" class="preview" alt="entry hall" />
+      </a>
       <h1 class="home-teaser__title">Willkommen bei Messe 123</h1>
     </div>
     <p>
@@ -14,7 +17,9 @@
       <div class="mdl-cell mdl-cell--6-col" v-for="speaker in this.getSpeakers()" v-bind:key="speaker.id">
         <div id="speaker1" class="speaker-card mdl-card mdl-shadow--2dp">
           <div class="mdl-card__title mdl-card--expand">
-            <img class="card__image" :src="speaker.image">
+            <a :href="speaker.image" class="card__image progressive replace">
+              <img :src="speaker.imgPreview" class="preview" :alt="'Speaker: ' + speaker.name" />
+            </a>
             <h2 class="mdl-card__title-text">{{ speaker.name }}</h2>
           </div>
           <div class="mdl-card__supporting-text">
@@ -37,39 +42,115 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        name: '',
-        image: '',
-        description: ''
+export default {
+  data () {
+    return {
+      name: '',
+      image: '',
+      imgPreview: '',
+      description: ''
+    }
+  },
+  methods: {
+    getSpeakers () {
+      if (navigator.onLine) {
+        this.cacheSpeakers()
+        return this.$root.speaker
+      } else {
+        return JSON.parse(localStorage.getItem('speaker'))
       }
     },
-    methods: {
-      getSpeakers () {
-        if (navigator.onLine) {
-          this.cacheSpeakers()
-          return this.$root.speaker
+    cacheSpeakers () {
+      this.$root.$firebaseRefs.speaker.orderByChild('name').once('value', (snapshot) => {
+        let cachedSpeakers = []
+        snapshot.forEach((speaker) => {
+          let cachedSpeaker = speaker.val()
+          cachedSpeaker['.key'] = speaker.key
+          cachedSpeakers.push(cachedSpeaker)
+        })
+        localStorage.setItem('speaker', JSON.stringify(cachedSpeakers))
+      })
+    }
+  },
+  mounted () {
+    this.cacheSpeakers()
+
+    var pItem = document.getElementsByClassName('progressive replace')
+    var timer
+
+    window.addEventListener('onScroll', scroller, false)
+    window.addEventListener('resize', scroller, false)
+    inView()
+
+    window.addEventListener('scroll', function () {
+      console.log(123)
+    })
+
+    function inView () {
+      var wT = window.pageYOffset
+      var wB = wT + window.innerHeight
+      var cRect
+      var pT
+      var pB
+      var p = 0
+      while (p < pItem.length) {
+        cRect = pItem[p].getBoundingClientRect()
+        pT = wT + cRect.top
+        pB = pT + cRect.height
+
+        if (wT < pB && wB > pT) {
+          loadFullImage(pItem[p])
+          pItem[p].classList.remove('replace')
         } else {
-          return JSON.parse(localStorage.getItem('speaker'))
+          p++
         }
-      },
-      cacheSpeakers () {
-        this.$root.$firebaseRefs.speaker.orderByChild('name').once('value', (snapshot) => {
-          let cachedSpeakers = []
-          snapshot.forEach((speaker) => {
-            let cachedSpeaker = speaker.val()
-            cachedSpeaker['.key'] = speaker.key
-            cachedSpeakers.push(cachedSpeaker)
-          })
-          localStorage.setItem('speaker', JSON.stringify(cachedSpeakers))
+      }
+    }
+
+    function loadFullImage (item) {
+      if (!item || !item.href) return
+
+      // load image
+      var img = new Image()
+      if (item.dataset) {
+        img.srcset = item.dataset.srcset || ''
+        img.sizes = item.dataset.sizes || ''
+      }
+      img.src = item.href
+      img.className = 'reveal'
+      if (img.complete) addImg()
+      else img.onload = addImg
+
+      // replace image
+      function addImg () {
+        // disable click
+        item.addEventListener('click', function (e) {
+          e.preventDefault()
+        }, false)
+
+        // add full image
+        item.appendChild(img).addEventListener('animationend', function (e) {
+          // remove preview image
+          var pImg = item.querySelector && item.querySelector('img.preview')
+          if (pImg) {
+            e.target.alt = pImg.alt || ''
+            item.removeChild(pImg)
+            e.target.classList.remove('reveal')
+            this.removeEventListener('animationend', this)
+          }
         })
       }
-    },
-    mounted () {
-      this.cacheSpeakers()
+    }
+
+    function scroller (e) {
+      console.log(e)
+      timer = timer || setTimeout(function () {
+        timer = null
+        requestAnimationFrame(inView)
+      }, 300)
     }
   }
+}
 </script>
 <style scoped>
   h2 {
@@ -143,5 +224,43 @@
       left: 30px;  
       border-radius: 3px;
     }
+  }
+</style>
+<style>
+  a.progressive {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    outline: none;
+  }
+
+  a.progressive:not(.replace) {
+    cursor: default;
+  }
+
+  a.progressive img {
+    display: block;
+    width: 100%;
+    max-width: none;
+    height: auto;
+    border: 0 none;
+  }
+
+  a.progressive img.preview {
+    filter: blur(2vw);
+    transform: scale(1.05);
+  }
+
+  a.progressive img.reveal {
+    position: absolute;
+    left: 0;
+    top: 0;
+    will-change: transform, opacity;
+    animation: reveal 1s ease-out;
+  }
+
+  @keyframes reveal {
+    0% { transform: scale(1.05); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
   }
 </style>
