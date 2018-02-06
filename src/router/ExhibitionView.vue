@@ -1,7 +1,7 @@
 <template>
   <div class="map">
     <div class="map__image">
-      <img src="./../../static/img/messeplan.png" />
+      <img src="./../../static/img/messeplan.jpg" />
     </div>
   </div>
 </template>
