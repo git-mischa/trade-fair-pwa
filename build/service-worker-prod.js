@@ -1,7 +1,9 @@
-import { firestore } from "firebase";
-
-(() => {
+(function() {
   'use strict';
+
+  // import { firestore } from "firebase";
+  // import('https://www.gstatic.com/firebasejs/4.8.1/firebase-app.js');
+  // import('https://www.gstatic.com/firebasejs/4.8.1/firebase-messaging.js');
 
   // Check to make sure service workers are supported in the current browser,
   // and that the current page is accessed from a secure origin. Using a
@@ -14,16 +16,6 @@ import { firestore } from "firebase";
         /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
       )
     );
-
-  import('https://www.gstatic.com/firebasejs/4.8.1/firebase-app.js');
-  import('https://www.gstatic.com/firebasejs/4.8.1/firebase-messaging.js');
-  
-  firebase.initializeApp({
-    'messagingSenderId': currentToken
-  })
-
-  const messaging = firebase.messaging()
-
 
   window.addEventListener('load', function() {
       if ('serviceWorker' in navigator &&
