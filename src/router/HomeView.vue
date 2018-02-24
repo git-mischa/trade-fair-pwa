@@ -72,11 +72,6 @@ export default {
       })
     }
   },
-  // watch: {
-  //   $route () {
-  //     document.getElementsByClassName('mdl-layout__content').scrollTop = 0
-  //   }
-  // },
   mounted () {
     this.cacheSpeakers()
   }
