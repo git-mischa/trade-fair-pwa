@@ -105,9 +105,19 @@ const webpackConfig = merge(baseWebpackConfig, {
     ]),
     // service worker caching
     new SWPrecacheWebpackPlugin({
-      cacheId: 'my-vue-app',
+      cacheId: 'exhibition-vue-app',
       filename: 'service-worker.js',
-      staticFileGlobs: ['dist/**/*.{js,html,css,jpg,jpeg,png,svg}'],
+      staticFileGlobs: [
+        // 'dist/**/*.{js,html,css,jpg,jpeg,png,svg}',
+        'dist/static/css/*',
+        'dist/static/js/*',
+        'dist/static/calendar.json',
+        'dist/static/img/avatar*',
+        'dist/static/img/home*',
+        'dist/statuc/img/messeplan*',
+        'dist/statuc/img/re-lounge_logo.svg',
+        'dist/statuc/img/icons/*'
+      ],
       minify: true,
       stripPrefix: 'dist/',
       runtimeCaching: [
