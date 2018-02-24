@@ -45,7 +45,81 @@ export default {
     hideMenu: function () {
       document.getElementsByClassName('mdl-layout__drawer')[0].classList.remove('is-visible')
       document.getElementsByClassName('mdl-layout__obfuscator')[0].classList.remove('is-visible')
+    },
+    loadFullImage (item) {
+      if (!item || !item.href) return
+
+      // load image
+      var img = new Image()
+      if (item.dataset) {
+        img.srcset = item.dataset.srcset || ''
+        img.sizes = item.dataset.sizes || ''
+      }
+      img.src = item.href
+      img.className = 'reveal'
+      if (img.complete) addImg()
+      else img.onload = addImg
+
+      // replace image
+      function addImg () {
+        // disable click
+        item.addEventListener('click', function (e) {
+          e.preventDefault()
+        }, false)
+
+        // add full image
+        item.appendChild(img).addEventListener('animationend', function (e) {
+          // remove preview image
+          var pImg = item.querySelector && item.querySelector('img.preview')
+          if (pImg) {
+            e.target.alt = pImg.alt || ''
+            item.removeChild(pImg)
+            e.target.classList.remove('reveal')
+            this.removeEventListener('animationend', this)
+          }
+        })
+      }
+    },
+    inView (items) {
+      var wT = window.pageYOffset
+      var wB = wT + window.innerHeight
+      var cRect
+      var pT
+      var pB
+      var p = 0
+      console.log(items.length)
+      while (p < items.length) {
+        cRect = items[p].getBoundingClientRect()
+        pT = wT + cRect.top
+        pB = pT + cRect.height
+
+        if (wT < pB && wB > pT) {
+          this.loadFullImage(items[p])
+          items[p].classList.remove('replace')
+        } else {
+          p++
+        }
+      }
     }
+  },
+  mounted () {
+    var pItem = document.getElementsByClassName('progressive replace')
+    var timer
+
+    let contentArea = document.body.querySelector('.mdl-layout__content')
+
+    let scroller = (e) => {
+      timer = timer || setTimeout(() => {
+        timer = null
+        // this.requestAnimationFrame(this.inView)
+        this.inView(pItem)
+      }, 300)
+    }
+    contentArea.addEventListener('scroll', scroller, false)
+    contentArea.addEventListener('resize', scroller, false)
+    this.inView(pItem)
+
+    console.log(document.querySelector('.mdl-layout'))
   }
 }
 window.addEventListener('load', () => {

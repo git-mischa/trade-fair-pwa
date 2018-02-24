@@ -72,83 +72,13 @@ export default {
       })
     }
   },
+  // watch: {
+  //   $route () {
+  //     document.getElementsByClassName('mdl-layout__content').scrollTop = 0
+  //   }
+  // },
   mounted () {
     this.cacheSpeakers()
-
-    var pItem = document.getElementsByClassName('progressive replace')
-    var timer
-
-    window.addEventListener('onScroll', scroller, false)
-    window.addEventListener('resize', scroller, false)
-    inView()
-
-    window.addEventListener('scroll', function () {
-      console.log(123)
-    })
-
-    function inView () {
-      var wT = window.pageYOffset
-      var wB = wT + window.innerHeight
-      var cRect
-      var pT
-      var pB
-      var p = 0
-      while (p < pItem.length) {
-        cRect = pItem[p].getBoundingClientRect()
-        pT = wT + cRect.top
-        pB = pT + cRect.height
-
-        if (wT < pB && wB > pT) {
-          loadFullImage(pItem[p])
-          pItem[p].classList.remove('replace')
-        } else {
-          p++
-        }
-      }
-    }
-
-    function loadFullImage (item) {
-      if (!item || !item.href) return
-
-      // load image
-      var img = new Image()
-      if (item.dataset) {
-        img.srcset = item.dataset.srcset || ''
-        img.sizes = item.dataset.sizes || ''
-      }
-      img.src = item.href
-      img.className = 'reveal'
-      if (img.complete) addImg()
-      else img.onload = addImg
-
-      // replace image
-      function addImg () {
-        // disable click
-        item.addEventListener('click', function (e) {
-          e.preventDefault()
-        }, false)
-
-        // add full image
-        item.appendChild(img).addEventListener('animationend', function (e) {
-          // remove preview image
-          var pImg = item.querySelector && item.querySelector('img.preview')
-          if (pImg) {
-            e.target.alt = pImg.alt || ''
-            item.removeChild(pImg)
-            e.target.classList.remove('reveal')
-            this.removeEventListener('animationend', this)
-          }
-        })
-      }
-    }
-
-    function scroller (e) {
-      console.log(e)
-      timer = timer || setTimeout(function () {
-        timer = null
-        requestAnimationFrame(inView)
-      }, 300)
-    }
   }
 }
 </script>
