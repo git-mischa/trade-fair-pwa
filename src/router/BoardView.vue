@@ -102,6 +102,7 @@ form {
 .card-container {
   display: flex;
   flex-wrap: wrap;
+  pointer-events: none;
 }
 
 .mdl-card {
