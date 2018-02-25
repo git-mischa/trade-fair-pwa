@@ -108,10 +108,11 @@ const webpackConfig = merge(baseWebpackConfig, {
       cacheId: 'exhibition-vue-app',
       filename: 'service-worker.js',
       staticFileGlobs: [
-        // 'dist/**/*.{js,html,css,jpg,jpeg,png,svg}',
+        'dist/**/*.{js,html,css,jpg,jpeg,png,svg}',
         'index.html',
         'dist/static/css/*',
         'dist/static/js/*',
+        'dist/static/manifest.json',
         'dist/static/calendar.json',
         'dist/static/img/avatar*',
         'dist/static/img/home*',
