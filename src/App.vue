@@ -2,13 +2,11 @@
   <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
     <header class="mdl-layout__header">
       <div class="mdl-layout__header-row">
-        <span class="mdl-layout-title">Exhibition</span>
+        <span class="mdl-layout-title">Trade Fair</span>
+        <span id="offline-switch" class="offline-message">
+          You're currently offline <i class="material-icons">&#xE195;</i>
+        </span>
       </div>
-      <span class="reload-icon">
-        <button id="reload-button" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" disabled>
-          <i class="material-icons">&#xE86A;</i>
-        </button>
-      </span>
     </header>
     <div class="mdl-layout__drawer">
       <span class="mdl-layout-title">Exhibition</span>
@@ -32,16 +30,27 @@
       <div class="footer-icon">
         <object data="../static/img/re-lounge_logo.svg"></object>
       </div>
-      <span class="footer-copyright">© 2018</span>
+      <span class="footer-copyright">2018 © Michael Magrian</span>
     </footer>
   </div>
 </template>
-
 <script>
 require('material-design-lite')
 export default {
   name: 'app',
+  data () {
+    return {
+      state: null
+    }
+  },
   methods: {
+    detected (e) {
+      this.state = e
+      console.log(e)
+      setTimeout(function () {
+        this.detected()
+      }, 1000)
+    },
     hideMenu: function () {
       document.getElementsByClassName('mdl-layout__drawer')[0].classList.remove('is-visible')
       document.getElementsByClassName('mdl-layout__obfuscator')[0].classList.remove('is-visible')
@@ -49,7 +58,6 @@ export default {
     loadFullImage (item) {
       if (!item || !item.href) return
 
-      // load image
       var img = new Image()
       if (item.dataset) {
         img.srcset = item.dataset.srcset || ''
@@ -60,16 +68,12 @@ export default {
       if (img.complete) addImg()
       else img.onload = addImg
 
-      // replace image
       function addImg () {
-        // disable click
         item.addEventListener('click', function (e) {
           e.preventDefault()
         }, false)
 
-        // add full image
         item.appendChild(img).addEventListener('animationend', function (e) {
-          // remove preview image
           var pImg = item.querySelector && item.querySelector('img.preview')
           if (pImg) {
             e.target.alt = pImg.alt || ''
@@ -87,7 +91,6 @@ export default {
       var pT
       var pB
       var p = 0
-      console.log(items.length)
       while (p < items.length) {
         cRect = items[p].getBoundingClientRect()
         pT = wT + cRect.top
@@ -103,6 +106,25 @@ export default {
     }
   },
   mounted () {
+    let networkStatus = null
+
+    let checkOnline = () => {
+      if (navigator.onLine !== networkStatus) {
+        console.log(navigator.onLine)
+        if (navigator.onLine) {
+          document.querySelector('#offline-switch').classList.remove('active')
+        } else {
+          document.querySelector('#offline-switch').classList.add('active')
+        }
+        networkStatus = navigator.onLine
+      }
+      setTimeout(() => {
+        checkOnline()
+      }, 3000)
+    }
+
+    checkOnline()
+
     var pItem = document.getElementsByClassName('progressive replace')
     var timer
 
@@ -118,14 +140,8 @@ export default {
     contentArea.addEventListener('scroll', scroller, false)
     contentArea.addEventListener('resize', scroller, false)
     this.inView(pItem)
-
-    console.log(document.querySelector('.mdl-layout'))
   }
 }
-window.addEventListener('load', () => {
-  // let reloadButton = document.getElementById('reload-button')
-  // reloadButton.removeAttribute('disabled')
-})
 </script>
 
 <style>
@@ -138,14 +154,27 @@ window.addEventListener('load', () => {
 }
 
 .mdl-layout {
-  padding-bottom: 60px;
+  padding-bottom: 40px;
+}
+.mdl-layout__header-row {
+  justify-content: space-between;
 }
 
-.reload-icon {
-  position: fixed;
-  bottom: 55px;
-  right: 10px;
-  z-index: 5;
+.offline-message {
+  float: right;
+  display: flex;
+  align-items: center;
+  color: #424242;
+  opacity: 0;
+  transition: .2s;
+}
+
+.offline-message i {
+  margin-left: 10px;
+}
+
+.offline-message.active {
+  opacity: 1;
 }
 
 .l-wrapper {
@@ -183,7 +212,7 @@ img {
 }
 
 .footer-icon {
-  flex: 3;
+  flex: 1;
   text-align: left;
 }
 
