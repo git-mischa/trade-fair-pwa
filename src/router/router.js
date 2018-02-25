@@ -6,9 +6,9 @@ import DetailView from '@/router/DetailView'
 import OverView from '@/router/OverviewView'
 import BoardView from '@/router/BoardView'
 import AboutView from '@/router/AboutView'
+import NotFoundView from '@/router/NotFoundView'
 
 Vue.use(Router)
-
 export default new Router({
   routes: [
     {
@@ -24,7 +24,8 @@ export default new Router({
     {
       path: '/detail/:id',
       name: 'detail',
-      component: DetailView
+      component: DetailView,
+      props: true
     },
     {
       path: '/overview',
@@ -40,6 +41,15 @@ export default new Router({
       path: '/about',
       name: 'about',
       component: AboutView
+    },
+    {
+      path: '/notFound',
+      name: 'notFound',
+      component: NotFoundView
+    },
+    {
+      path: '*',
+      redirect: '/notFound'
     }
   ]
 })
