@@ -5,13 +5,13 @@
       <a href="./../../static/img/home.jpg" class="progressive replace">
         <img src="./../../static/img/home_min.jpg" class="preview" alt="entry hall" />
       </a>
-      <h1 class="home-teaser__title">Willkommen bei Messe 123</h1>
+      <h1 class="home-teaser__title">Welcome to trade fair 123</h1>
     </div>
     <p>
-      Wie jedes Jahr treffen sich bei der Messer 123 hunderte Experten und Interessierte im Bereich 123.<br>
-      Besucher können sich nicht nur die Vialzahl der Firmenstände anschauen, sondern sich außerdem bei den zahlreichen Meet-Ups treffen und Talks zu allen möglichen Themen zuhören. Hier gilt: First come first serve – also nicht warten sondern rechtzeitig antanzen.
+      We meet again as we do every year at the trade fair 123 with hundreds of experts and thousands of curious people.<br>
+      Visitors can not only visit the vast amount of company booths, but also attend countless meet-ups and talks around a variety of topics. First come first serve, so don't wait around and be quick.
     </p>
-    <h2>Unsere Speaker:</h2>
+    <h2>This year's speakers:</h2>
 
     <div class="mdl-grid">
       <div class="mdl-cell mdl-cell--6-col" v-for="speaker in this.getSpeakers()" v-bind:key="speaker.id">
@@ -26,18 +26,13 @@
             {{ speaker.description }}
           </div>
           <div class="mdl-card__actions mdl-card--border">
-            <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+            <router-link v-bind:speaker="speaker" :to="'/detail/' + speaker.id" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
               Profil
-            </a>
+            </router-link>
           </div>
         </div>
       </div>
     </div>
-    <!-- 
-    <router-link class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
-      <i class="material-icons">add</i>
-    </router-link> 
-    -->
   </div>
 </template>
 
