@@ -43,7 +43,6 @@
   </div>
 </template>
 <script>
-// import parse from 'xml-parser'
 import postMessage from '@/mixins/postMessage'
 export default {
   mixins: [postMessage],
@@ -55,11 +54,6 @@ export default {
     }
   },
   methods: {
-    // TODO: Insert delete dialog
-    // displayDetails (id) {
-    //   this.$router.push({name: 'detail', params: { id: id }})
-    // },
-
     postProcess () {
       this.postMessage()
       this.clearInput()
@@ -78,9 +72,9 @@ export default {
       this.user = ''
     },
     cacheMessages () {
-      this.$root.$firebaseRefs.board.orderByChild('created_at').once('value', (snapchot) => {
+      this.$root.$firebaseRefs.board.orderByChild('created_at').once('value', (snapshot) => {
         let cachedMessages = []
-        snapchot.forEach((message) => {
+        snapshot.forEach((message) => {
           let cachedMessage = message.val()
           cachedMessage['.key'] = message.key
           cachedMessages.push(cachedMessage)
