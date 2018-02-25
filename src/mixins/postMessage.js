@@ -9,10 +9,10 @@ const postMessage = {
           'created_at': -1 * new Date().getTime()
         }
       ).then(
-        this.$router.push('/board')
-        // this.title = '',
-        // this.message = '',
-        // this.user = ''
+        this.$router.push('/board'),
+        this.title = '',
+        this.message = '',
+        this.user = ''
       )
     }
   }
