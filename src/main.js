@@ -9,6 +9,7 @@ import VueResource from 'vue-resource'
 
 Vue.use(Vuefire)
 Vue.use(VueResource)
+Vue.component('detectNetwork', require('v-offline'))
 
 Vue.config.productionTip = false
 
